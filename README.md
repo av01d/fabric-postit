@@ -1,2 +1,2 @@
 # fabric-postit
-A fabric.js post-it note type
+A Fabric.js post-it note type
