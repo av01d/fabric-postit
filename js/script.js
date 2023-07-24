@@ -7,10 +7,7 @@ const saveState = () => {
 }
 
 const addNote = () => {
-  const note = new fabric.Postit({
-    text: {
-      text: 'Hello World'
-    },
+  const note = new fabric.Postit('hello world', {
     width: 200,
     height: 200,
     top: 200,
@@ -18,6 +15,17 @@ const addNote = () => {
   })
   canvas.add(note)
   saveState()
+}
+
+const changeColor = () => {
+  const note = canvas.getActiveObject()
+  if (note) {
+    const hue = Math.floor(Math.random() * 360)
+    note.set('noteColor', `hsl(${hue}deg, 100%, 50%)`)
+    note.set('stripColor', `hsl(${hue}deg, 100%, 40%)`)
+    saveState()
+    canvas.requestRenderAll()
+  }
 }
 
 const clearCanvas = () => {

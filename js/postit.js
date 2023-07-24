@@ -1,8 +1,9 @@
 fabric.Postit = fabric.util.createClass(fabric.Group, {
   type: 'postit',
 
-  initialize: function ({ text, rect, accent, ...options }) {
-    this.text = new fabric.Textbox(text ?? '', {
+  initialize: function (text, options) {
+    // sub-classed objects
+    this.tbox = new fabric.Textbox(text, {
       left: 0,
       top: 0,
       originY: 'center',
@@ -11,104 +12,151 @@ fabric.Postit = fabric.util.createClass(fabric.Group, {
       padding: 10,
       fontSize: 20,
       fontFamily: 'Arial',
-      ...text
+      fill: '#000000'
     })
-
-    this.rect = new fabric.Rect({
+    this.note = new fabric.Rect({
       left: 0,
       top: 0,
-      originY: 'center',
-      originX: 'center',
-      fill: '#ffffaa',
-      shadow: 'rgba(0,0,0,0.3) 5px 5px 5px',
-      rx: 10,
-      ry: 10,
-      ...rect
-    })
-
-    this.accent = new fabric.Rect({
-      left: 0,
-      top: 0,
-      height: 30,
       originY: 'top',
       originX: 'center',
-      fill: '#ffff00',
-      ...accent
+      fill: '#ffffaa',
+      shadow: 'rgba(0,0,0,0.3) 3px 3px 3px',
+      rx: 5,
+      ry: 5
+    })
+    this.strip = new fabric.Rect({
+      left: 0,
+      top: 0,
+      originY: 'top',
+      originX: 'center',
+      height: 30,
+      fill: '#ffff00'
     })
 
+    // property definitions
+    Object.defineProperty(this, 'text', {
+      get: () => this.tbox.text,
+      set: (value) => this.tbox.set('text', value)
+    })
+    Object.defineProperty(this, 'textPadding', {
+      get: () => this.tbox.padding,
+      set: (value) => this.tbox.set('padding', value)
+    })
+    Object.defineProperty(this, 'fontSize', {
+      get: () => this.tbox.fontSize,
+      set: (value) => this.tbox.set('fontSize', value)
+    })
+    Object.defineProperty(this, 'fontFamily', {
+      get: () => this.tbox.fontFamily,
+      set: (value) => this.tbox.set('fontFamily', value)
+    })
+    Object.defineProperty(this, 'textColor', {
+      get: () => this.tbox.fill,
+      set: (value) => this.tbox.set('fill', value)
+    })
+    Object.defineProperty(this, 'noteColor', {
+      get: () => this.note.fill,
+      set: (value) => this.note.set('fill', value)
+    })
+    Object.defineProperty(this, 'boxShadow', {
+      get: () => this.note.shadow,
+      set: (value) => this.note.set('shadow', value)
+    })
+    Object.defineProperty(this, 'radius', {
+      get: () => this.note.rx,
+      set: (value) => this.note.set({ rx: value, ry: value })
+    })
+    Object.defineProperty(this, 'stripHeight', {
+      get: () => this.strip.height,
+      set: (value) => this.strip.set('height', value)
+    })
+    Object.defineProperty(this, 'stripColor', {
+      get: () => this.strip.fill,
+      set: (value) => this.strip.set('fill', value)
+    })
+
+    // event handlers
     this.on('scaling', this._onScale.bind(this))
     this.on('mousedblclick', this._enterEditing.bind(this))
-    this.text.on('changed', this._onChange.bind(this))
-    this.text.on('selection:changed', this._onChange.bind(this))
+    this.tbox.on('changed', this._onChange.bind(this))
+    this.tbox.on('selection:changed', this._onChange.bind(this))
 
-    this.callSuper('initialize', [this.rect, this.accent, this.text], {
+    // initialize
+    this.callSuper('initialize', [this.note, this.strip, this.tbox], {
       lockScalingFlip: true,
       ...options
     })
-    this._resize(this.width, this.height)
+
+    this.setCoords()
   },
 
   _enterEditing: function () {
-    console.log('dblclick')
-    this.canvas.setActiveObject(this.text)
+    this.canvas.setActiveObject(this.tbox)
 
-    this.text.bringToFront()
-    this.text.enterEditing()
-    this.text.selectAll()
+    this.tbox.bringToFront()
+    this.tbox.enterEditing()
+    this.tbox.selectAll()
 
     this._onChange()
   },
 
   _onChange: function () {
-    this.text.set('dirty', true)
-    this._resize()
+    this.setCoords()
   },
 
   _onScale: function () {
     // prevent scaling and update the text box
     const scaleX = Math.abs(this.scaleX)
     const scaleY = Math.abs(this.scaleY)
-    const width = this.width * scaleX
-    const height = this.height * scaleY
-    this._resize(width, height)
-  },
-
-  _resize: function (width = this.width, height = this.height) {
-    this.text.set({
+    this.set({
       scaleX: 1,
       scaleY: 1,
-      top: this.accent.height / 2,
-      width: width - this.text.padding * 2,
-      height: height - this.accent.height - this.text.padding * 2
+      width: this.width * scaleX,
+      height: this.height * scaleY
+    })
+    this.setCoords()
+  },
+
+  setCoords() {
+    this.tbox.set({
+      top: this.strip.height / 2,
+      width: this.width - this.tbox.padding * 2,
+      height: this.height - this.strip.height - this.tbox.padding * 2
     })
 
-    this.text.setCoords()
-    width = this.text.width + this.text.padding * 2
-    height = Math.max(
-      this.text.height + this.accent.height + this.text.padding * 2,
-      height
+    this.tbox.setCoords()
+    const width = this.tbox.width + this.tbox.padding * 2
+    const height = Math.max(
+      this.tbox.height + this.strip.height + this.tbox.padding * 2,
+      this.height
     )
 
     this.set({ scaleX: 1, scaleY: 1, width, height })
-    this.rect.set({ width, height })
-    this.accent.set({ width, top: -this.height / 2 })
+    this.note.set({ width, height, top: -height / 2 })
+    this.strip.set({ width, top: -this.height / 2 })
 
-    this.setCoords()
+    this.callSuper('setCoords')
     this.canvas?.requestRenderAll()
   },
 
   toObject: function (propertiesToInclude) {
-    return fabric.util.object.extend(
-      this.callSuper('toObject', propertiesToInclude),
-      {
-        text: this.text.toObject(propertiesToInclude),
-        rect: this.rect.toObject(propertiesToInclude),
-        accent: this.accent.toObject(propertiesToInclude)
-      }
-    )
+    const properties = [
+      'text',
+      'textPadding',
+      'fontSize',
+      'fontFamily',
+      'textColor',
+      'noteColor',
+      'boxShadow',
+      'radius',
+      'stripHeight',
+      'stripColor',
+      ...(propertiesToInclude ?? [])
+    ]
+    return fabric.util.object.extend(this.callSuper('toObject', properties))
   }
 })
 
 fabric.Postit.fromObject = function (object, callback) {
-  return fabric.Object._fromObject('Postit', object, callback)
+  return fabric.Object._fromObject('Postit', object, callback, 'text')
 }
