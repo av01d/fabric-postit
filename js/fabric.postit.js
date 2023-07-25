@@ -1,7 +1,20 @@
+/**
+ * fabric.postit - A Post-it Note object for fabric.js (version 4 and up).
+ *
+ * Made by Wiebe Beeftink and Arjan Haverkamp
+ * Copyright 2023 Arjan Haverkamp
+ * MIT Licensed
+ * @version 1.0 - 2023-07-25
+ * @url https://github.com/av01d/fabric-postit
+ */
+
 fabric.Postit = fabric.util.createClass(fabric.Group, {
   type: 'postit',
 
-  initialize: function (text, options) {
+  initialize(text, options) {
+
+    //options.shadow = options.shadow || 'rgba(0,0,0,0.3) 3px 3px 3px';
+
     // sub-classed objects
     this.tbox = new fabric.Textbox(text, {
       left: 0,
@@ -11,8 +24,8 @@ fabric.Postit = fabric.util.createClass(fabric.Group, {
       textAlign: 'center',
       padding: 10,
       fontSize: 20,
-      fontFamily: 'Arial',
-      fill: '#000000'
+      fontFamily: 'Sans-serif',
+      fontStyle: 'normal'
     })
     this.note = new fabric.Rect({
       left: 0,
@@ -20,7 +33,6 @@ fabric.Postit = fabric.util.createClass(fabric.Group, {
       originY: 'top',
       originX: 'center',
       fill: '#ffffaa',
-      shadow: 'rgba(0,0,0,0.3) 3px 3px 3px',
       rx: 5,
       ry: 5
     })
@@ -42,9 +54,17 @@ fabric.Postit = fabric.util.createClass(fabric.Group, {
       get: () => this.tbox.padding,
       set: (value) => this.tbox.set('padding', value)
     })
+    Object.defineProperty(this, 'textAlign', {
+      get: () => this.tbox.textAlign,
+      set: (value) => this.tbox.set('textAlign', value)
+    })
     Object.defineProperty(this, 'fontSize', {
       get: () => this.tbox.fontSize,
       set: (value) => this.tbox.set('fontSize', value)
+    })
+    Object.defineProperty(this, 'fontStyle', {
+      get: () => this.tbox.fontStyle,
+      set: (value) => this.tbox.set('fontStyle', value)
     })
     Object.defineProperty(this, 'fontFamily', {
       get: () => this.tbox.fontFamily,
@@ -59,8 +79,8 @@ fabric.Postit = fabric.util.createClass(fabric.Group, {
       set: (value) => this.note.set('fill', value)
     })
     Object.defineProperty(this, 'boxShadow', {
-      get: () => this.note.shadow,
-      set: (value) => this.note.set('shadow', value)
+      get: () => this.shadow,
+      set: (value) => this.set('shadow', value)
     })
     Object.defineProperty(this, 'radius', {
       get: () => this.note.rx,
@@ -84,13 +104,14 @@ fabric.Postit = fabric.util.createClass(fabric.Group, {
     // initialize
     this.callSuper('initialize', [this.note, this.strip, this.tbox], {
       lockScalingFlip: true,
+      shadow: 'rgba(0,0,0,0.3) 3px 3px 3px', // Default shadow for group
       ...options
     })
 
     this.setCoords()
   },
 
-  _enterEditing: function () {
+  _enterEditing() {
     this.canvas.setActiveObject(this.tbox)
 
     this.tbox.bringToFront()
@@ -100,11 +121,11 @@ fabric.Postit = fabric.util.createClass(fabric.Group, {
     this._onChange()
   },
 
-  _onChange: function () {
+  _onChange() {
     this.setCoords()
   },
 
-  _onScale: function () {
+  _onScale() {
     // prevent scaling and update the text box
     const scaleX = Math.abs(this.scaleX)
     const scaleY = Math.abs(this.scaleY)
@@ -139,10 +160,11 @@ fabric.Postit = fabric.util.createClass(fabric.Group, {
     this.canvas?.requestRenderAll()
   },
 
-  toObject: function (propertiesToInclude) {
+  toObject(propertiesToInclude) {
     const properties = [
       'text',
       'textPadding',
+      'textAlign',
       'fontSize',
       'fontFamily',
       'textColor',
@@ -157,6 +179,6 @@ fabric.Postit = fabric.util.createClass(fabric.Group, {
   }
 })
 
-fabric.Postit.fromObject = function (object, callback) {
+fabric.Postit.fromObject = function(object, callback) {
   return fabric.Object._fromObject('Postit', object, callback, 'text')
 }

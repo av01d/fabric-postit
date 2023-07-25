@@ -1,27 +1,196 @@
 <!doctype html>
 <html>
-
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>Fabric.js Post It</title>
+    <title>Fabric.js Post It Note</title>
 
     <style>
-        canvas {
-            border: 1px solid black;
+        body {
+            background-color: #fff;
+            color: #000;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
         }
 
+        a {
+            color: #39c;
+            text-decoration:none;
+        }
+
+        a:hover {
+            color: #069;
+            text-decoration: underline;
+        }
+
+        .btn {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 5px 10px;
+            text-align: center;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #080;
+            margin: 2px 0;
+            cursor: pointer;
+        }
+
+        canvas {
+            border: 1px dotted black;
+        }
+
+        pre, h1 {
+            margin: 0;
+        }
     </style>
 
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
+
     <script src="js/fabric.js"></script>
-    <script src="js/postit.js"></script>
-    <script defer src="js/script.js"></script>
+    <script src="js/fabric.postit.js"></script>
 </head>
 
 <body>
-    <canvas id="canvas" width="800" height="600"></canvas>
-    <button onclick="addNote()">New Note</button>
-    <button onclick="changeColor()">Change Color</button>
-    <button onclick="clearCanvas()">Clear</button>
-</body>
+    <h1>Fabric Post-it Example</h1>
+    <p>
+        A Post-it Note object for fabric.js.
+        <br>
+        <svg style="vertical-align: bottom" version="1.1" width="20" height="20" viewBox="0 0 16 16" class="octicon octicon-mark-github" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+        <a href="https://github.com/av01d/fabric-postit">View project on GitHub</a>.
+    </p>
 
+    <div style="display:flex">
+        <div>
+            <canvas id="canvas" width="660" height="580"></canvas>
+            <div style="margin-top:.5em">
+                <button class="btn" onclick="addNote()">New Note</button>
+                <button class="btn" onclick="changeColor()">Change Color</button>
+                <button class="btn" onclick="clearCanvas()">Clear</button>
+            </div>
+        </div>
+        <pre><code class="js">
+const fabricCanvas = new fabric.Canvas('canvas')
+
+fabricCanvas.add(
+    new fabric.Postit('Hello world!', {
+        left: 20,
+        top: 20,
+        width: 280,
+        height: 280,
+        fontSize: 40,
+        fontFamily: 'Serif'
+    }),
+
+    new fabric.Postit('This is a Post-it note', {
+        left: 350,
+        top: 60,
+        width: 280,
+        height: 280,
+        fontSize: 30,
+        noteColor: '#ff02bb',
+        stripColor: '#cc0197'
+    }),
+
+    new fabric.Postit('And another note, just for fun.', {
+        left: 180,
+        top: 260,
+        width: 280,
+        height: 280,
+        fontSize: 30,
+        noteColor: '#00ff4c',
+        stripColor: '#00cc3d',
+        fontStyle: 'italic',
+        boxShadow: 'none'
+    })
+);
+        </code></pre>
+    </div>
+<script>
+
+const fabricCanvas = new fabric.Canvas('canvas')
+
+fabricCanvas.add(
+    new fabric.Postit('Hello world!', {
+        left: 20,
+        top: 20,
+        width: 280,
+        height: 280,
+        fontSize: 40,
+        fontFamily: 'Serif'
+    }),
+
+    new fabric.Postit('This is a Post-it note', {
+        left: 350,
+        top: 60,
+        width: 280,
+        height: 280,
+        fontSize: 30,
+        noteColor: '#ff02bb',
+        stripColor: '#cc0197'
+    }),
+
+    new fabric.Postit('And another note, just for fun.', {
+        left: 180,
+        top: 260,
+        width: 280,
+        height: 280,
+        fontSize: 30,
+        noteColor: '#00ff4c',
+        stripColor: '#00cc3d',
+        fontStyle: 'italic',
+        boxShadow: 'none'
+    })
+);
+
+const getRandomInt = (min, max) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+const addNote = () => {
+    const note = new fabric.Postit('hello world', {
+        width: 200,
+        height: 200,
+        left: getRandomInt(0,460),
+        top: getRandomInt(0,380),
+        textPadding: 20,
+        boxShadow: "rgba(0,255,0,0.3) 0 0 13px"
+    })
+    fabricCanvas.add(note)
+
+}
+
+const changeColor = () => {
+    const note = fabricCanvas.getActiveObject()
+    if (note) {
+        const hue = Math.floor(Math.random() * 360)
+        note.set('noteColor', `hsl(${hue}deg, 100%, 50%)`)
+        note.set('stripColor', `hsl(${hue}deg, 100%, 40%)`)
+        fabricCanvas.requestRenderAll()
+    }
+}
+
+const clearCanvas = () => {
+    fabricCanvas.clear()
+}
+
+// Syntac-Highlight code samples
+hljs.configure({
+    tabReplace: '   ', // 3 spaces
+});
+
+[...document.querySelectorAll('pre code')].forEach((el) => {
+    hljs.highlightBlock(el);
+});
+
+
+/*
+      $('pre code').each(function() {
+         hljs.highlightBlock(this);
+      });
+      */
+
+</script>
+</body>
 </html>
