@@ -100,6 +100,12 @@ The font size.
 - Options
   - `normal`, `italic`, `onblique`
 
+### fontWeight
+- Type: `String`
+- Default: `400`
+
+The font weight. Either a number (`400`, `700`, `900`) or a string (`normal`, `bold` etc).
+
 ### textColor
 - Type: `String`
 - Default: `#000`

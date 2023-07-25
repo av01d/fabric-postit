@@ -25,7 +25,8 @@ fabric.Postit = fabric.util.createClass(fabric.Group, {
       padding: 10,
       fontSize: 20,
       fontFamily: 'Sans-serif',
-      fontStyle: 'normal'
+      fontStyle: 'normal',
+		fontWeight: 400
     })
     this.note = new fabric.Rect({
       left: 0,
@@ -61,6 +62,10 @@ fabric.Postit = fabric.util.createClass(fabric.Group, {
     Object.defineProperty(this, 'fontSize', {
       get: () => this.tbox.fontSize,
       set: (value) => this.tbox.set('fontSize', value)
+    })
+    Object.defineProperty(this, 'fontWeight', {
+      get: () => this.tbox.fontWeight,
+      set: (value) => this.tbox.set('fontWeight', value)
     })
     Object.defineProperty(this, 'fontStyle', {
       get: () => this.tbox.fontStyle,
@@ -167,6 +172,8 @@ fabric.Postit = fabric.util.createClass(fabric.Group, {
       'textAlign',
       'fontSize',
       'fontFamily',
+      'fontStyle',
+      'fontWeight',
       'textColor',
       'noteColor',
       'boxShadow',
