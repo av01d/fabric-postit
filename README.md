@@ -30,9 +30,11 @@ Include the `fabric.postit.js` script file **after** `fabric.js`:
 
 ```html
 ...
-<script src="js/fabric.js"></script>
-<script src="js/fabric.postit.js"></script>
+<script src="lib/fabric.js"></script>
+<script src="dist/fabric.postit.js"></script>
 ```
+
+(A minified version is also available: `dist/fabric.postit.min.js`)
 
 ## Initialization
 
