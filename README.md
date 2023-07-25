@@ -9,10 +9,10 @@ A Fabric.js post-it note extension.
 ## Table of contents
 - [Features](#features)
 - [Demo](#demo)
-- [Getting started](#getting-started)
-- [Options](#options)
-- [Methods](#methods)
-- [Events](#events)
+- [Installation](#installation)
+- [Initialization](#initialization)
+- [Properties](#properties)
+- [Sub elements](#sub-elements)
 - [Donations](#donations)
 - [License](#license)
 
