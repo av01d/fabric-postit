@@ -13,8 +13,6 @@ fabric.Postit = fabric.util.createClass(fabric.Group, {
 
   initialize(text, options) {
 
-    //options.shadow = options.shadow || 'rgba(0,0,0,0.3) 3px 3px 3px';
-
     // sub-classed objects
     this.tbox = new fabric.Textbox(text, {
       left: 0,
@@ -109,7 +107,7 @@ fabric.Postit = fabric.util.createClass(fabric.Group, {
     // initialize
     this.callSuper('initialize', [this.note, this.strip, this.tbox], {
       lockScalingFlip: true,
-      shadow: 'rgba(0,0,0,0.3) 3px 3px 3px', // Default shadow for group
+      boxShadow: 'rgba(0,0,0,0.3) 3px 3px 3px', // Default shadow for group
       ...options
     })
 
