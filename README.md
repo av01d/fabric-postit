@@ -3,18 +3,34 @@ A Fabric.js post-it note extension.
 
 ![Fabric Post-it](postit.png)
 
-## [Live Demo](https://av01d.github.io/fabric-postit/index.html)
+## [Live Demo](https://av01d.github.io/fabric-postit/demo/index.html)
 
 
 ## Table of contents
-- [Features](#features)
-- [Demo](#demo)
-- [Installation](#installation)
-- [Initialization](#initialization)
-- [Properties](#properties)
-- [Sub elements](#sub-elements)
-- [Donations](#donations)
-- [License](#license)
+- [fabric-postit](#fabric-postit)
+  - [Live Demo](#live-demo)
+  - [Table of contents](#table-of-contents)
+  - [Features](#features)
+  - [Demo](#demo)
+  - [Installation](#installation)
+  - [Initialization](#initialization)
+  - [Properties](#properties)
+    - [text](#text)
+    - [textPadding](#textpadding)
+    - [textAlign](#textalign)
+    - [fontFamily](#fontfamily)
+    - [fontSize](#fontsize)
+    - [fontStyle](#fontstyle)
+    - [fontWeight](#fontweight)
+    - [textColor](#textcolor)
+    - [noteColor](#notecolor)
+    - [boxShadow](#boxshadow)
+    - [radius](#radius)
+    - [stripHeight](#stripheight)
+    - [stripColor](#stripcolor)
+  - [Sub-elements](#sub-elements)
+  - [Donations](#donations)
+  - [License](#license)
 
 ## Features
 - Editable text
@@ -22,7 +38,7 @@ A Fabric.js post-it note extension.
 
 ## Demo
 
-[Live demo](https://av01d.github.io/fabric-postit/index.html).
+[Live demo](https://av01d.github.io/fabric-postit/demo/index.html).
 
 ## Installation
 
@@ -57,7 +73,7 @@ Properties can be altered like so:
 note.set('fontSize', 30)
 note.set({noteColor: 'yellow', stripColor:'red'})
 fabricCanvas.requestRenderAll()
-````
+```
 
 ## Properties
 
