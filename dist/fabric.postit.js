@@ -1,4 +1,4 @@
-/* Copyright 2023 WebGear en EvoStack. All rights reserved. */
+/* Copyright 2023 WebGear and EvoStack. All rights reserved. */
 (() => {
   // lib/fabric.postit.js
   fabric.Postit = fabric.util.createClass(fabric.Group, {
@@ -14,7 +14,8 @@
         fontSize: 20,
         fontFamily: "Sans-serif",
         fontStyle: "normal",
-        fontWeight: 400
+        fontWeight: 400,
+        shadow: "none"
       });
       this.note = new fabric.Rect({
         left: 0,
@@ -31,7 +32,8 @@
         originY: "top",
         originX: "center",
         height: 30,
-        fill: "#ffff00"
+        fill: "#ffff00",
+        shadow: "none"
       });
       Object.defineProperty(this, "text", {
         get: () => this.tbox.text,
@@ -69,10 +71,6 @@
         get: () => this.note.fill,
         set: (value) => this.note.set("fill", value)
       });
-      Object.defineProperty(this, "boxShadow", {
-        get: () => this.shadow,
-        set: (value) => this.set("shadow", value)
-      });
       Object.defineProperty(this, "radius", {
         get: () => this.note.rx,
         set: (value) => this.note.set({ rx: value, ry: value })
@@ -87,11 +85,10 @@
       });
       this.on("scaling", this._onScale.bind(this));
       this.on("mousedblclick", this._enterEditing.bind(this));
-      this.tbox.on("changed", this._onChange.bind(this));
-      this.tbox.on("selection:changed", this._onChange.bind(this));
+      this.tbox.on("changed", this.setCoords.bind(this));
+      this.tbox.on("selection:changed", this.setCoords.bind(this));
       this.callSuper("initialize", [this.note, this.strip, this.tbox], {
         lockScalingFlip: true,
-        boxShadow: "rgba(0,0,0,0.3) 3px 3px 3px",
         ...options
       });
       this.setCoords();
@@ -101,9 +98,6 @@
       this.tbox.bringToFront();
       this.tbox.enterEditing();
       this.tbox.selectAll();
-      this._onChange();
-    },
-    _onChange() {
       this.setCoords();
     },
     _onScale() {
@@ -143,7 +137,6 @@
         "fontWeight",
         "textColor",
         "noteColor",
-        "boxShadow",
         "radius",
         "stripHeight",
         "stripColor",

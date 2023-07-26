@@ -24,7 +24,6 @@ A Fabric.js post-it note extension.
     - [fontWeight](#fontweight)
     - [textColor](#textcolor)
     - [noteColor](#notecolor)
-    - [boxShadow](#boxshadow)
     - [radius](#radius)
     - [stripHeight](#stripheight)
     - [stripColor](#stripcolor)
@@ -133,12 +132,6 @@ The text color.
 - Default: `#ffffaa`
 
 The note's background color.
-
-### boxShadow
-- Type: `String`
-- Default: `rgba(0,0,0,0.3) 3px 3px 3px`
-
-Shadow behind the note, expressed as a CSS rule. Use `none` for no shadow.
 
 ### radius
 - Type: `Number`
