@@ -1,12 +1,13 @@
 # fabric-postit
+
 A Fabric.js post-it note extension.
 
 ![Fabric Post-it](postit.png)
 
 ## [Live Demo](https://av01d.github.io/fabric-postit/demo/index.html)
 
-
 ## Table of contents
+
 - [fabric-postit](#fabric-postit)
   - [Live Demo](#live-demo)
   - [Table of contents](#table-of-contents)
@@ -32,6 +33,7 @@ A Fabric.js post-it note extension.
   - [License](#license)
 
 ## Features
+
 - Editable text
 - Configurable colors, padding, text alignment etc.
 
@@ -68,9 +70,10 @@ const note = new fabric.Postit('hello world', {
 ```
 
 Properties can be altered like so:
+
 ```js
 note.set('fontSize', 30)
-note.set({noteColor: 'yellow', stripColor:'red'})
+note.set({ noteColor: 'yellow', stripColor: 'red' })
 fabricCanvas.requestRenderAll()
 ```
 
@@ -79,17 +82,20 @@ fabricCanvas.requestRenderAll()
 The following custom properties can be read and changed.
 
 ### text
+
 - Type: `String`
 
 The text to display on the Post-it Note.
 
 ### textPadding
+
 - Type: `Number`
 - Default: `10`
 
 The padding between the box and text, in pixels.
 
 ### textAlign
+
 - Type: `String`
 - Default: `center`
 - Options
@@ -98,54 +104,63 @@ The padding between the box and text, in pixels.
 The text alignment.
 
 ### fontFamily
+
 - Type: `String`
 - Default: `Sans-serif`
 
 The font family.
 
 ### fontSize
+
 - Type: `Number`
 - Default: `20`
 
 The font size.
 
 ### fontStyle
+
 - Type: `String`
 - Default: `normal`
 - Options
   - `normal`, `italic`, `onblique`
 
 ### fontWeight
+
 - Type: `String`
 - Default: `400`
 
 The font weight. Either a number (`400`, `700`, `900`) or a string (`normal`, `bold` etc).
 
 ### textColor
+
 - Type: `String`
 - Default: `#000`
 
 The text color.
 
 ### noteColor
+
 - Type: `String`
 - Default: `#ffffaa`
 
 The note's background color.
 
 ### radius
+
 - Type: `Number`
 - Default: `5`
 
 The border-radius of the bottom-left and bottom-right corners of the note.
 
 ### stripHeight
+
 - Type: `Number`
 - Default: `30`
 
 The height of the sticky strip on top of the note, in pixels. Use `0` for no sticky strip.
 
 ### stripColor
+
 - Type: `String`
 - Default: `#ffff00`
 
